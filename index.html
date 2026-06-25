@@ -4,11 +4,91 @@
   <meta charset="utf-8">
   <title>Lev Gerasimov</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #111;
+      background: #fafafa;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    main {
+      width: min(720px, calc(100% - 48px));
+      padding: 64px 0;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: clamp(48px, 9vw, 88px);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+    }
+
+    .subtitle {
+      margin: 0 0 32px;
+      font-size: 22px;
+      color: #555;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    a {
+      color: inherit;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .links a {
+      padding: 10px 14px;
+      border: 1px solid #ddd;
+      border-radius: 999px;
+      text-decoration: none;
+      background: white;
+    }
+
+    .links a:hover {
+      border-color: #111;
+    }
+  </style>
 </head>
 <body>
-  <h1>Lev Gerasimov</h1>
-  <p>Personal website.</p>
-  <p>Work, projects, notes, and contact information.</p>
-  <p>Email: contact@levgerasimov.com</p>
+  <main>
+    <h1>Lev Gerasimov</h1>
+    <p class="subtitle">Personal website.</p>
+
+    <p>
+      Work, projects, notes, and contact information.
+    </p>
+
+    <p>
+      I study Chemical Engineering and Biotechnology at the University of Cambridge.
+      This website will collect my academic work, projects, writing, and useful links.
+    </p>
+
+    <div class="links">
+      <a href="mailto:contact@levgerasimov.com">Email</a>
+      <a href="https://github.com/levontiiy">GitHub</a>
+      <a href="#">Projects</a>
+      <a href="#">Notes</a>
+    </div>
+  </main>
 </body>
 </html>
