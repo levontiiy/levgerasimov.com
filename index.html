@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Lev Gerasimov</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Lev Gerasimov — education, experience, projects, and contact.">
+  <meta name="description" content="Lev Gerasimov — current work, education, experience, projects, achievements, and contact.">
   <style>
     :root {
       --font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -242,6 +242,51 @@
       line-height: 1.1;
     }
 
+    /* ── Now / Currently ── */
+    .now-section {
+      padding-top: calc(var(--section-pad) * 0.75);
+      padding-bottom: calc(var(--section-pad) * 0.5);
+    }
+
+    .now-card {
+      padding: 32px 36px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+    }
+
+    .now-label {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 12px;
+    }
+
+    .now-status {
+      margin: 0 0 12px;
+      font-size: clamp(22px, 4vw, 28px);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+    }
+
+    .now-detail {
+      margin: 0;
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 640px;
+      line-height: 1.6;
+    }
+
+    .now-detail + .now-detail {
+      margin-top: 8px;
+    }
+
     /* ── Education timeline ── */
     .timeline {
       position: relative;
@@ -305,6 +350,28 @@
       font-size: 16px;
       color: var(--text-light);
       max-width: 600px;
+    }
+
+    .timeline-connector {
+      position: relative;
+      margin: 0 0 40px -8px;
+      padding: 10px 0 10px 40px;
+      font-size: 13px;
+      font-weight: 500;
+      font-style: italic;
+      color: var(--text-light);
+      letter-spacing: 0.01em;
+    }
+
+    .timeline-connector::before {
+      content: "";
+      position: absolute;
+      left: -2px;
+      top: 50%;
+      width: 18px;
+      height: 2px;
+      background: var(--border);
+      transform: translateY(-50%);
     }
 
     /* ── Experience ── */
@@ -404,6 +471,41 @@
       line-height: 1.55;
     }
 
+    /* ── Achievements ── */
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .achievement-item {
+      padding: 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+
+    .achievement-item:hover {
+      border-color: var(--accent-light);
+      box-shadow: 0 4px 20px rgba(26, 58, 92, 0.08);
+    }
+
+    .achievement-title {
+      margin: 0 0 6px;
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    .achievement-detail {
+      margin: 0;
+      font-size: 14px;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+
     /* ── Contact ── */
     .contact-section {
       padding-bottom: calc(var(--section-pad) * 0.6);
@@ -475,6 +577,15 @@
         height: 12px;
       }
 
+      .timeline-connector {
+        margin-left: -4px;
+        padding-left: 32px;
+      }
+
+      .now-card {
+        padding: 24px;
+      }
+
       .experience-card {
         padding: 20px;
       }
@@ -495,9 +606,11 @@
   <nav class="nav" id="nav" aria-label="Main navigation">
     <a href="#" class="nav-logo">Lev Gerasimov</a>
     <ul class="nav-links">
+      <li><a href="#now">Now</a></li>
       <li><a href="#education">Education</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#projects">Projects</a></li>
+      <li><a href="#achievements">Achievements</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
@@ -508,8 +621,8 @@
     <div class="hero-overlay" id="hero-overlay"></div>
     <div class="hero-content">
       <h1>Lev Gerasimov</h1>
-      <p class="hero-tagline">Chemical Engineering &amp; Biotechnology · Cambridge</p>
-      <a href="#education" class="scroll-cue" aria-label="Scroll to content">
+      <p class="hero-tagline">Chemical Engineer &amp; Bioengineering · University of Cambridge</p>
+      <a href="#now" class="scroll-cue" aria-label="Scroll to content">
         <span>Scroll</span>
         <span class="scroll-cue-arrow" aria-hidden="true"></span>
       </a>
@@ -519,6 +632,19 @@
   <!-- ── Main content ── -->
   <div class="content">
 
+    <!-- Now / Currently -->
+    <section class="section now-section" id="now" aria-labelledby="now-title">
+      <div class="section-inner">
+        <p class="section-label" id="now-title">Currently</p>
+        <div class="now-card">
+          <p class="now-label">Now</p>
+          <p class="now-status">Reading Chemical Engineering &amp; Biotechnology at the University of Cambridge, graduating 2028</p>
+          <p class="now-detail">An ambitious chemical engineer with a strong interest in bioengineering, drawing on experience across Russia's largest agroholding and a groundbreaking nanomaterial laboratory.</p>
+          <p class="now-detail">Year 2 with a predicted Class 1, focusing on reaction engineering, heat &amp; mass transfer, biotechnology, and process design.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- Education -->
     <section class="section" id="education" aria-labelledby="education-title">
       <div class="section-inner">
@@ -526,20 +652,20 @@
         <h2 class="section-title" id="education-title">Where I've studied</h2>
 
         <div class="timeline">
-          <!-- EDIT: Update years, degree, and description for Cambridge -->
           <article class="timeline-item">
-            <p class="timeline-years">20XX – Present</p>
+            <p class="timeline-years">2024 – 2028 (expected)</p>
             <h3 class="timeline-school">University of Cambridge</h3>
-            <p class="timeline-degree">MEng Chemical Engineering and Biotechnology</p>
-            <p class="timeline-desc">Brief description of your studies, focus areas, or achievements at Cambridge.</p>
+            <p class="timeline-degree">Chemical Engineering &amp; Biotechnology</p>
+            <p class="timeline-desc">Year 1: Class 2.1, top 30 in cohort, with First Class in Mathematics (80.1%, top 2%). Year 2: predicted Class 1. Coursework spans Process Engineering, Fluid Mechanics, Heat &amp; Mass Transfer, Reaction Engineering, Biotechnology, Process Thermodynamics, and Separators.</p>
           </article>
 
-          <!-- EDIT: Update years, degree, and description for ITMO -->
+          <p class="timeline-connector">Transferred to the University of Cambridge</p>
+
           <article class="timeline-item">
-            <p class="timeline-years">20XX – 20XX</p>
+            <p class="timeline-years">2023 – 2024</p>
             <h3 class="timeline-school">ITMO University</h3>
-            <p class="timeline-degree">Degree / Programme name</p>
-            <p class="timeline-desc">Brief description of your studies, focus areas, or achievements at ITMO.</p>
+            <p class="timeline-degree">Bioengineering</p>
+            <p class="timeline-desc">GPA 4.0. Coursework in Linear Algebra, Analysis, Cell Biology, Process Simulation, and Environmental Research.</p>
           </article>
         </div>
       </div>
@@ -552,26 +678,32 @@
         <h2 class="section-title" id="experience-title">Where I've worked</h2>
 
         <div class="experience-list">
-          <!-- EDIT: Replace with your real employment details -->
           <article class="experience-card">
-            <p class="experience-dates">Month YYYY – Present</p>
-            <h3 class="experience-role">Job Title</h3>
-            <p class="experience-company">Company Name</p>
-            <p class="experience-desc">Short description of your role, responsibilities, and key contributions.</p>
+            <p class="experience-dates">Oct 2025 – Dec 2025 · Cambridge</p>
+            <h3 class="experience-role">Mixer Design Project</h3>
+            <p class="experience-company">University of Cambridge</p>
+            <p class="experience-desc">Led the selection of anchor-type mixers with cross-functional teams using performance metrics, calculated 1000+ points of power supply to determine optimal dimensions, and formulated theoretical justifications and concentration predictions for an industrial-scale CSTR reactor with an anchor mixer.</p>
           </article>
 
           <article class="experience-card">
-            <p class="experience-dates">Month YYYY – Month YYYY</p>
-            <h3 class="experience-role">Job Title</h3>
-            <p class="experience-company">Company Name</p>
-            <p class="experience-desc">Short description of your role, responsibilities, and key contributions.</p>
+            <p class="experience-dates">Jul 2024 – May 2025 · Moscow</p>
+            <h3 class="experience-role">Bioinformatics Analyst</h3>
+            <p class="experience-company">RusAgro</p>
+            <p class="experience-desc">Analyzed 10,000+ production data records to build gravity-model analyses supporting nationwide manufacturing network optimization, delivered scientific consulting for an MPTI collaboration on plant mutagenesis vaccines, and prepared concise technical summaries and visuals for R&amp;D and operations stakeholders.</p>
           </article>
 
           <article class="experience-card">
-            <p class="experience-dates">Month YYYY – Month YYYY</p>
-            <h3 class="experience-role">Job Title</h3>
-            <p class="experience-company">Company Name</p>
-            <p class="experience-desc">Short description of your role, responsibilities, and key contributions.</p>
+            <p class="experience-dates">Aug 2023 – Sep 2024 · Saint Petersburg</p>
+            <h3 class="experience-role">Nanomaterial Laboratory Assistant</h3>
+            <p class="experience-company">ITMO Nanomaterial Laboratory</p>
+            <p class="experience-desc">Synthesized 10 types of opto-semiconductor microfilms (arsenic sulfide) with controlled 200–300 μm thickness, optimized crystallization behavior through spectrophotometric analysis, and presented findings on gold-nanoparticle doping effects on Urbach energy and bandgap.</p>
+          </article>
+
+          <article class="experience-card">
+            <p class="experience-dates">May 2022 – Jul 2022 · Moscow</p>
+            <h3 class="experience-role">Biology Lab Intern</h3>
+            <p class="experience-company">Skoltech</p>
+            <p class="experience-desc">Engineered 3 tetracycline-resistant E. coli strains through 10 rigorous passages on selective media, identified resistant breeds via ELISA analysis, and validated resistance profiles using BLAST genome comparison against established antibiotic resistance genes.</p>
           </article>
         </div>
       </div>
@@ -607,6 +739,41 @@
               <h3 class="project-title">Project Name</h3>
               <p class="project-desc">A short description of what this project does, the technologies used, and what you learned or achieved.</p>
             </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Achievements -->
+    <section class="section" id="achievements" aria-labelledby="achievements-title">
+      <div class="section-inner">
+        <p class="section-label">Achievements</p>
+        <h2 class="section-title" id="achievements-title">Highlights</h2>
+
+        <div class="achievements-grid">
+          <article class="achievement-item">
+            <h3 class="achievement-title">Cambridge Trust Foundation Award</h3>
+            <p class="achievement-detail">Annual award for "a promising academic prodigy".</p>
+          </article>
+
+          <article class="achievement-item">
+            <h3 class="achievement-title">Best Researcher Under 18</h3>
+            <p class="achievement-detail">Awarded at the ITMO University Conference of Young Scientists.</p>
+          </article>
+
+          <article class="achievement-item">
+            <h3 class="achievement-title">First Class in Mathematics</h3>
+            <p class="achievement-detail">80.1% at Cambridge — top 2% of the cohort.</p>
+          </article>
+
+          <article class="achievement-item">
+            <h3 class="achievement-title">MIT OpenCourseWare</h3>
+            <p class="achievement-detail">"Introduction to Computer Science and Programming in Python".</p>
+          </article>
+
+          <article class="achievement-item">
+            <h3 class="achievement-title">HarvardX</h3>
+            <p class="achievement-detail">"Science &amp; Cooking: From Haute Cuisine to Soft Matter Science".</p>
           </article>
         </div>
       </div>
