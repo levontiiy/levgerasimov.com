@@ -4,91 +4,682 @@
   <meta charset="utf-8">
   <title>Lev Gerasimov</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Lev Gerasimov — education, experience, projects, and contact.">
   <style>
     :root {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: #111;
-      background: #fafafa;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --text: #111;
+      --text-muted: #555;
+      --text-light: #777;
+      --bg: #f4f2ef;
+      --bg-card: #fff;
+      --accent: #1a3a5c;
+      --accent-light: #2d5a8a;
+      --border: #ddd;
+      --hero-overlay: rgba(10, 20, 35, 0.45);
+      --section-pad: clamp(72px, 12vw, 120px);
+      --content-width: min(960px, calc(100% - 48px));
+      scroll-behavior: smooth;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      :root {
+        scroll-behavior: auto;
+      }
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
     }
 
     body {
       margin: 0;
-      min-height: 100vh;
+      font-family: var(--font);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    /* ── Navigation ── */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    .nav.scrolled {
+      background: rgba(244, 242, 239, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+
+    .nav-logo {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav.scrolled .nav-logo {
+      color: var(--text);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 999px;
+      transition: color 0.3s, background 0.2s;
+    }
+
+    .nav.scrolled .nav-links a {
+      color: var(--text-muted);
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      background: rgba(255, 255, 255, 0.15);
+      outline: none;
+    }
+
+    .nav.scrolled .nav-links a:hover,
+    .nav.scrolled .nav-links a:focus-visible {
+      background: rgba(0, 0, 0, 0.06);
+      color: var(--text);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 560px;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
     }
 
-    main {
-      width: min(720px, calc(100% - 48px));
-      padding: 64px 0;
+    .hero-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 0;
+      will-change: transform, opacity;
+      /* EDIT: Replace with your Cambridge photo at images/cambridge.jpg */
+      background:
+        linear-gradient(135deg, #1a3a5c 0%, #2d5a8a 40%, #4a7ab0 100%),
+        url("images/cambridge.jpg") center / cover no-repeat;
+      background-blend-mode: overlay;
     }
 
-    h1 {
+    .hero-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 1;
+      background: var(--hero-overlay);
+      pointer-events: none;
+      will-change: opacity;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 24px;
+      color: #fff;
+    }
+
+    .hero-content h1 {
       margin: 0 0 16px;
-      font-size: clamp(48px, 9vw, 88px);
+      font-size: clamp(48px, 10vw, 96px);
       line-height: 0.95;
-      letter-spacing: -0.06em;
+      letter-spacing: -0.05em;
+      font-weight: 700;
     }
 
-    .subtitle {
-      margin: 0 0 32px;
-      font-size: 22px;
-      color: #555;
+    .hero-tagline {
+      margin: 0 0 48px;
+      font-size: clamp(18px, 3vw, 24px);
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 400;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    p {
+    .scroll-cue {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .scroll-cue:hover,
+    .scroll-cue:focus-visible {
+      color: #fff;
+      outline: none;
+    }
+
+    .scroll-cue-arrow {
+      width: 20px;
+      height: 20px;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(45deg);
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: rotate(45deg) translateY(0); }
+      50% { transform: rotate(45deg) translateY(6px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-cue-arrow {
+        animation: none;
+      }
+    }
+
+    /* ── Main content ── */
+    .content {
+      position: relative;
+      z-index: 10;
+      background: var(--bg);
+    }
+
+    .section {
+      padding: var(--section-pad) 0;
+    }
+
+    .section-inner {
+      width: var(--content-width);
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 12px;
+    }
+
+    .section-title {
+      margin: 0 0 48px;
+      font-size: clamp(32px, 5vw, 48px);
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+    }
+
+    /* ── Education timeline ── */
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 40px;
+    }
+
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -32px;
+      top: 8px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 3px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+
+    .timeline-years {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 0 0 4px;
+    }
+
+    .timeline-school {
+      margin: 0 0 4px;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .timeline-degree {
+      margin: 0 0 8px;
+      font-size: 16px;
+      color: var(--text-muted);
+    }
+
+    .timeline-desc {
+      margin: 0;
+      font-size: 16px;
+      color: var(--text-light);
+      max-width: 600px;
+    }
+
+    /* ── Experience ── */
+    .experience-list {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .experience-card {
+      padding: 28px 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: box-shadow 0.2s;
+    }
+
+    .experience-card:hover {
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    .experience-dates {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 0 0 8px;
+    }
+
+    .experience-role {
+      margin: 0 0 4px;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .experience-company {
+      margin: 0 0 12px;
+      font-size: 16px;
+      color: var(--text-muted);
+    }
+
+    .experience-desc {
+      margin: 0;
+      font-size: 16px;
+      color: var(--text-light);
+    }
+
+    /* ── Projects ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .project-card:hover {
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .project-card:hover {
+        transform: none;
+      }
+    }
+
+    .project-image {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, #c8d6e5, #8395a7);
+    }
+
+    .project-body {
+      padding: 20px 24px 24px;
+    }
+
+    .project-title {
+      margin: 0 0 8px;
       font-size: 18px;
-      line-height: 1.6;
-      color: #333;
+      font-weight: 600;
+      letter-spacing: -0.02em;
     }
 
-    a {
-      color: inherit;
-      text-decoration-thickness: 1px;
-      text-underline-offset: 4px;
+    .project-desc {
+      margin: 0;
+      font-size: 15px;
+      color: var(--text-light);
+      line-height: 1.55;
     }
 
-    .links {
+    /* ── Contact ── */
+    .contact-section {
+      padding-bottom: calc(var(--section-pad) * 0.6);
+    }
+
+    .contact-links {
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
-      margin-top: 32px;
+      gap: 16px;
     }
 
-    .links a {
-      padding: 10px 14px;
-      border: 1px solid #ddd;
-      border-radius: 999px;
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 24px;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text);
       text-decoration: none;
-      background: white;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    .links a:hover {
-      border-color: #111;
+    .contact-btn:hover,
+    .contact-btn:focus-visible {
+      border-color: var(--accent);
+      box-shadow: 0 4px 16px rgba(26, 58, 92, 0.1);
+      outline: none;
+    }
+
+    .contact-btn svg {
+      flex-shrink: 0;
+      opacity: 0.7;
+    }
+
+    .footer {
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-light);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .nav {
+        padding: 12px 16px;
+      }
+
+      .nav-links {
+        gap: 2px;
+      }
+
+      .nav-links a {
+        font-size: 12px;
+        padding: 6px 8px;
+      }
+
+      .timeline {
+        padding-left: 24px;
+      }
+
+      .timeline-item::before {
+        left: -24px;
+        width: 12px;
+        height: 12px;
+      }
+
+      .experience-card {
+        padding: 20px;
+      }
+
+      .contact-links {
+        flex-direction: column;
+      }
+
+      .contact-btn {
+        justify-content: center;
+      }
     }
   </style>
 </head>
 <body>
-  <main>
-    <h1>Lev Gerasimov</h1>
-    <p class="subtitle">Personal website.</p>
 
-    <p>
-      Work, projects, notes, and contact information.
-    </p>
+  <!-- ── Navigation ── -->
+  <nav class="nav" id="nav" aria-label="Main navigation">
+    <a href="#" class="nav-logo">Lev Gerasimov</a>
+    <ul class="nav-links">
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-    <p>
-      I study Chemical Engineering and Biotechnology at the University of Cambridge.
-      This website will collect my academic work, projects, writing, and useful links.
-    </p>
-
-    <div class="links">
-      <a href="mailto:contact@levgerasimov.com">Email</a>
-      <a href="https://github.com/levontiiy">GitHub</a>
-      <a href="#">Projects</a>
-      <a href="#">Notes</a>
+  <!-- ── Hero ── -->
+  <header class="hero" id="hero">
+    <div class="hero-bg" id="hero-bg" role="img" aria-label="Cambridge background"></div>
+    <div class="hero-overlay" id="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Lev Gerasimov</h1>
+      <p class="hero-tagline">Chemical Engineering &amp; Biotechnology · Cambridge</p>
+      <a href="#education" class="scroll-cue" aria-label="Scroll to content">
+        <span>Scroll</span>
+        <span class="scroll-cue-arrow" aria-hidden="true"></span>
+      </a>
     </div>
-  </main>
+  </header>
+
+  <!-- ── Main content ── -->
+  <div class="content">
+
+    <!-- Education -->
+    <section class="section" id="education" aria-labelledby="education-title">
+      <div class="section-inner">
+        <p class="section-label">Education</p>
+        <h2 class="section-title" id="education-title">Where I've studied</h2>
+
+        <div class="timeline">
+          <!-- EDIT: Update years, degree, and description for Cambridge -->
+          <article class="timeline-item">
+            <p class="timeline-years">20XX – Present</p>
+            <h3 class="timeline-school">University of Cambridge</h3>
+            <p class="timeline-degree">MEng Chemical Engineering and Biotechnology</p>
+            <p class="timeline-desc">Brief description of your studies, focus areas, or achievements at Cambridge.</p>
+          </article>
+
+          <!-- EDIT: Update years, degree, and description for ITMO -->
+          <article class="timeline-item">
+            <p class="timeline-years">20XX – 20XX</p>
+            <h3 class="timeline-school">ITMO University</h3>
+            <p class="timeline-degree">Degree / Programme name</p>
+            <p class="timeline-desc">Brief description of your studies, focus areas, or achievements at ITMO.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section class="section" id="experience" aria-labelledby="experience-title">
+      <div class="section-inner">
+        <p class="section-label">Experience</p>
+        <h2 class="section-title" id="experience-title">Where I've worked</h2>
+
+        <div class="experience-list">
+          <!-- EDIT: Replace with your real employment details -->
+          <article class="experience-card">
+            <p class="experience-dates">Month YYYY – Present</p>
+            <h3 class="experience-role">Job Title</h3>
+            <p class="experience-company">Company Name</p>
+            <p class="experience-desc">Short description of your role, responsibilities, and key contributions.</p>
+          </article>
+
+          <article class="experience-card">
+            <p class="experience-dates">Month YYYY – Month YYYY</p>
+            <h3 class="experience-role">Job Title</h3>
+            <p class="experience-company">Company Name</p>
+            <p class="experience-desc">Short description of your role, responsibilities, and key contributions.</p>
+          </article>
+
+          <article class="experience-card">
+            <p class="experience-dates">Month YYYY – Month YYYY</p>
+            <h3 class="experience-role">Job Title</h3>
+            <p class="experience-company">Company Name</p>
+            <p class="experience-desc">Short description of your role, responsibilities, and key contributions.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="section" id="projects" aria-labelledby="projects-title">
+      <div class="section-inner">
+        <p class="section-label">Projects</p>
+        <h2 class="section-title" id="projects-title">Things I've built</h2>
+
+        <div class="projects-grid">
+          <!-- EDIT: Replace image, title, and description for each project -->
+          <article class="project-card">
+            <img class="project-image" src="images/project-1.jpg" alt="Project 1 preview" loading="lazy">
+            <div class="project-body">
+              <h3 class="project-title">Project Name</h3>
+              <p class="project-desc">A short description of what this project does, the technologies used, and what you learned or achieved.</p>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <img class="project-image" src="images/project-2.jpg" alt="Project 2 preview" loading="lazy">
+            <div class="project-body">
+              <h3 class="project-title">Project Name</h3>
+              <p class="project-desc">A short description of what this project does, the technologies used, and what you learned or achieved.</p>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <img class="project-image" src="images/project-3.jpg" alt="Project 3 preview" loading="lazy">
+            <div class="project-body">
+              <h3 class="project-title">Project Name</h3>
+              <p class="project-desc">A short description of what this project does, the technologies used, and what you learned or achieved.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section contact-section" id="contact" aria-labelledby="contact-title">
+      <div class="section-inner">
+        <p class="section-label">Contact</p>
+        <h2 class="section-title" id="contact-title">Get in touch</h2>
+
+        <div class="contact-links">
+          <a class="contact-btn" href="mailto:contact@levgerasimov.com">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+            contact@levgerasimov.com
+          </a>
+
+          <!-- EDIT: Replace with your Telegram username -->
+          <a class="contact-btn" href="https://t.me/yourusername" target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+            </svg>
+            Telegram
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>&copy; 2026 Lev Gerasimov</p>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var heroBg = document.getElementById("hero-bg");
+      var heroOverlay = document.getElementById("hero-overlay");
+      var nav = document.getElementById("nav");
+      var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var ticking = false;
+
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          var scrollY = window.scrollY;
+          var heroHeight = window.innerHeight;
+          var progress = Math.min(scrollY / heroHeight, 1);
+
+          if (nav) {
+            nav.classList.toggle("scrolled", scrollY > 60);
+          }
+
+          if (!prefersReducedMotion && heroBg && heroOverlay) {
+            var translateY = scrollY * 0.4;
+            var opacity = 1 - progress * 0.85;
+            var overlayOpacity = 0.45 + progress * 0.55;
+
+            heroBg.style.transform = "translateY(" + translateY + "px) scale(" + (1 + progress * 0.05) + ")";
+            heroBg.style.opacity = opacity;
+            heroOverlay.style.opacity = overlayOpacity;
+          }
+
+          ticking = false;
+        });
+      }
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
 </body>
 </html>
