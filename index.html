@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <title>Lev Gerasimov</title>
@@ -16,10 +16,43 @@
       --accent: #1a3a5c;
       --accent-light: #2d5a8a;
       --border: #ddd;
+      --shadow-soft: rgba(0, 0, 0, 0.06);
+      --shadow-strong: rgba(0, 0, 0, 0.14);
+      --nav-bg-scrolled: rgba(244, 242, 239, 0.92);
+      --nav-link-hover: rgba(0, 0, 0, 0.06);
+      --control-bg: rgba(255, 255, 255, 0.12);
+      --control-border: rgba(255, 255, 255, 0.35);
+      --control-scrolled-bg: rgba(0, 0, 0, 0.04);
+      --control-scrolled-border: rgba(0, 0, 0, 0.14);
       --hero-overlay: rgba(10, 20, 35, 0.45);
+      --hero-photo-1: url("images/hero-01.jpeg");
+      --hero-photo-2: url("images/hero-02.jpeg");
+      --hero-photo-3: url("images/hero-03.jpeg");
+      --hero-photo-4: url("images/hero-04.jpeg");
+      --hero-photo-5: url("images/hero-05.jpeg");
       --section-pad: clamp(72px, 12vw, 120px);
       --content-width: min(960px, calc(100% - 48px));
+      color-scheme: light;
       scroll-behavior: smooth;
+    }
+
+    :root[data-theme="dark"] {
+      --text: #f4efe8;
+      --text-muted: #c9c1b6;
+      --text-light: #a79f96;
+      --bg: #101312;
+      --bg-card: #181c1b;
+      --accent: #9dc6e8;
+      --accent-light: #c7ddf0;
+      --border: #303635;
+      --shadow-soft: rgba(0, 0, 0, 0.28);
+      --shadow-strong: rgba(0, 0, 0, 0.42);
+      --nav-bg-scrolled: rgba(16, 19, 18, 0.9);
+      --nav-link-hover: rgba(255, 255, 255, 0.08);
+      --control-scrolled-bg: rgba(255, 255, 255, 0.08);
+      --control-scrolled-border: rgba(255, 255, 255, 0.18);
+      --hero-overlay: rgba(3, 8, 12, 0.52);
+      color-scheme: dark;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -38,9 +71,9 @@
       color: var(--text);
       background: var(--bg);
       line-height: 1.6;
+      transition: color 0.25s, background 0.25s;
     }
 
-    /* ── Navigation ── */
     .nav {
       position: fixed;
       top: 0;
@@ -50,12 +83,13 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 18px;
       padding: 16px 24px;
       transition: background 0.3s, box-shadow 0.3s;
     }
 
     .nav.scrolled {
-      background: rgba(244, 242, 239, 0.92);
+      background: var(--nav-bg-scrolled);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       box-shadow: 0 1px 0 var(--border);
@@ -68,10 +102,17 @@
       color: #fff;
       text-decoration: none;
       transition: color 0.3s;
+      white-space: nowrap;
     }
 
     .nav.scrolled .nav-logo {
       color: var(--text);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     .nav-links {
@@ -103,11 +144,58 @@
 
     .nav.scrolled .nav-links a:hover,
     .nav.scrolled .nav-links a:focus-visible {
-      background: rgba(0, 0, 0, 0.06);
+      background: var(--nav-link-hover);
       color: var(--text);
     }
 
-    /* ── Hero ── */
+    .theme-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      color: #fff;
+      background: var(--control-bg);
+      border: 1px solid var(--control-border);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: color 0.3s, background 0.2s, border-color 0.2s;
+    }
+
+    .theme-button:hover,
+    .theme-button:focus-visible {
+      background: rgba(255, 255, 255, 0.2);
+      outline: none;
+    }
+
+    .nav.scrolled .theme-button {
+      color: var(--text);
+      background: var(--control-scrolled-bg);
+      border-color: var(--control-scrolled-border);
+    }
+
+    .nav.scrolled .theme-button:hover,
+    .nav.scrolled .theme-button:focus-visible {
+      background: var(--nav-link-hover);
+    }
+
+    .theme-button svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .theme-icon-sun {
+      display: none;
+    }
+
+    :root[data-theme="dark"] .theme-icon-moon {
+      display: none;
+    }
+
+    :root[data-theme="dark"] .theme-icon-sun {
+      display: block;
+    }
+
     .hero {
       position: relative;
       height: 100vh;
@@ -125,12 +213,65 @@
       width: 100%;
       height: 100vh;
       z-index: 0;
+      background: linear-gradient(135deg, #1a3a5c 0%, #6f8f7a 48%, #d8d1c5 100%);
       will-change: transform, opacity;
-      /* EDIT: Replace with your Cambridge photo at images/cambridge.jpg */
-      background:
-        linear-gradient(135deg, #1a3a5c 0%, #2d5a8a 40%, #4a7ab0 100%),
-        url("images/cambridge.jpg") center / cover no-repeat;
-      background-blend-mode: overlay;
+    }
+
+    .hero-bg-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background-size: cover;
+      background-repeat: no-repeat;
+      animation: heroSlideshow 35s ease-in-out infinite;
+      will-change: opacity;
+    }
+
+    .hero-bg-slide:nth-child(1) {
+      background-image:
+        linear-gradient(135deg, rgba(12, 28, 44, 0.62), rgba(26, 58, 92, 0.28)),
+        var(--hero-photo-1);
+      background-position: center;
+      animation-delay: 0s;
+    }
+
+    .hero-bg-slide:nth-child(2) {
+      background-image:
+        linear-gradient(135deg, rgba(12, 28, 44, 0.64), rgba(26, 58, 92, 0.3)),
+        var(--hero-photo-2);
+      background-position: center;
+      animation-delay: 7s;
+    }
+
+    .hero-bg-slide:nth-child(3) {
+      background-image:
+        linear-gradient(135deg, rgba(12, 28, 44, 0.58), rgba(26, 58, 92, 0.28)),
+        var(--hero-photo-3);
+      background-position: center 38%;
+      animation-delay: 14s;
+    }
+
+    .hero-bg-slide:nth-child(4) {
+      background-image:
+        linear-gradient(135deg, rgba(12, 28, 44, 0.66), rgba(26, 58, 92, 0.34)),
+        var(--hero-photo-4);
+      background-position: center 44%;
+      animation-delay: 21s;
+    }
+
+    .hero-bg-slide:nth-child(5) {
+      background-image:
+        linear-gradient(135deg, rgba(12, 28, 44, 0.62), rgba(26, 58, 92, 0.24)),
+        var(--hero-photo-5);
+      background-position: center 42%;
+      animation-delay: 28s;
+    }
+
+    @keyframes heroSlideshow {
+      0% { opacity: 1; }
+      18% { opacity: 1; }
+      22% { opacity: 0; }
+      100% { opacity: 0; }
     }
 
     .hero-overlay {
@@ -166,7 +307,7 @@
       font-size: clamp(18px, 3vw, 24px);
       color: rgba(255, 255, 255, 0.85);
       font-weight: 400;
-      max-width: 480px;
+      max-width: 720px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -205,12 +346,16 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .scroll-cue-arrow {
+      .scroll-cue-arrow,
+      .hero-bg-slide {
         animation: none;
+      }
+
+      .hero-bg-slide:first-child {
+        opacity: 1;
       }
     }
 
-    /* ── Main content ── */
     .content {
       position: relative;
       z-index: 10;
@@ -242,19 +387,30 @@
       line-height: 1.1;
     }
 
-    /* ── Now / Currently ── */
     .now-section {
       padding-top: calc(var(--section-pad) * 0.75);
       padding-bottom: calc(var(--section-pad) * 0.5);
     }
 
-    .now-card {
-      padding: 32px 36px;
+    .now-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .now-card,
+    .experience-card,
+    .project-card,
+    .achievement-item {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-left: 4px solid var(--accent);
       border-radius: 12px;
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 4px 24px var(--shadow-soft);
+    }
+
+    .now-card {
+      padding: 32px 36px;
+      border-left: 4px solid var(--accent);
     }
 
     .now-label {
@@ -279,15 +435,9 @@
       margin: 0;
       font-size: 17px;
       color: var(--text-muted);
-      max-width: 640px;
       line-height: 1.6;
     }
 
-    .now-detail + .now-detail {
-      margin-top: 8px;
-    }
-
-    /* ── Education timeline ── */
     .timeline {
       position: relative;
       padding-left: 32px;
@@ -325,22 +475,25 @@
       box-shadow: 0 0 0 2px var(--accent);
     }
 
-    .timeline-years {
+    .timeline-years,
+    .experience-dates {
       font-size: 14px;
       font-weight: 600;
       color: var(--accent);
-      margin: 0 0 4px;
+      margin: 0 0 8px;
     }
 
-    .timeline-school {
+    .timeline-school,
+    .experience-role {
       margin: 0 0 4px;
       font-size: 20px;
       font-weight: 600;
       letter-spacing: -0.02em;
     }
 
-    .timeline-degree {
-      margin: 0 0 8px;
+    .timeline-degree,
+    .experience-company {
+      margin: 0 0 12px;
       font-size: 16px;
       color: var(--text-muted);
     }
@@ -349,7 +502,11 @@
       margin: 0;
       font-size: 16px;
       color: var(--text-light);
-      max-width: 600px;
+      max-width: 680px;
+    }
+
+    .timeline-desc + .timeline-desc {
+      margin-top: 8px;
     }
 
     .timeline-connector {
@@ -374,7 +531,6 @@
       transform: translateY(-50%);
     }
 
-    /* ── Experience ── */
     .experience-list {
       display: flex;
       flex-direction: column;
@@ -383,78 +539,42 @@
 
     .experience-card {
       padding: 28px 32px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
       transition: box-shadow 0.2s;
     }
 
-    .experience-card:hover {
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    .experience-card:hover,
+    .project-card:hover {
+      box-shadow: 0 8px 32px var(--shadow-soft);
     }
 
-    .experience-dates {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--accent);
-      margin: 0 0 8px;
-    }
-
-    .experience-role {
-      margin: 0 0 4px;
-      font-size: 20px;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-    }
-
-    .experience-company {
-      margin: 0 0 12px;
-      font-size: 16px;
-      color: var(--text-muted);
-    }
-
-    .experience-desc {
-      margin: 0;
-      font-size: 16px;
+    .experience-points,
+    .project-points {
+      margin: 14px 0 0;
+      padding-left: 20px;
       color: var(--text-light);
     }
 
-    /* ── Projects ── */
+    .experience-points li + li,
+    .project-points li + li {
+      margin-top: 8px;
+    }
+
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 24px;
     }
 
     .project-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
       transition: box-shadow 0.2s, transform 0.2s;
     }
 
     .project-card:hover {
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
       transform: translateY(-2px);
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      .project-card:hover {
-        transform: none;
-      }
-    }
-
-    .project-image {
-      width: 100%;
-      aspect-ratio: 16 / 10;
-      object-fit: cover;
-      display: block;
-      background: linear-gradient(135deg, #c8d6e5, #8395a7);
-    }
-
     .project-body {
-      padding: 20px 24px 24px;
+      padding: 24px;
     }
 
     .project-title {
@@ -464,31 +584,58 @@
       letter-spacing: -0.02em;
     }
 
-    .project-desc {
-      margin: 0;
-      font-size: 15px;
-      color: var(--text-light);
-      line-height: 1.55;
+    .project-meta {
+      display: inline-block;
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
 
-    /* ── Achievements ── */
+    .project-desc,
+    .achievement-detail {
+      margin: 0;
+      color: var(--text-light);
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 18px;
+      padding: 9px 13px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--bg-card);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .project-link:hover,
+    .project-link:focus-visible {
+      border-color: var(--accent);
+      color: var(--accent);
+      outline: none;
+    }
+
     .achievements-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 20px;
     }
 
     .achievement-item {
       padding: 24px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
       transition: box-shadow 0.2s, border-color 0.2s;
     }
 
     .achievement-item:hover {
       border-color: var(--accent-light);
-      box-shadow: 0 4px 20px rgba(26, 58, 92, 0.08);
+      box-shadow: 0 4px 20px var(--shadow-soft);
     }
 
     .achievement-title {
@@ -499,14 +646,6 @@
       line-height: 1.3;
     }
 
-    .achievement-detail {
-      margin: 0;
-      font-size: 14px;
-      color: var(--text-light);
-      line-height: 1.5;
-    }
-
-    /* ── Contact ── */
     .contact-section {
       padding-bottom: calc(var(--section-pad) * 0.6);
     }
@@ -535,7 +674,7 @@
     .contact-btn:hover,
     .contact-btn:focus-visible {
       border-color: var(--accent);
-      box-shadow: 0 4px 16px rgba(26, 58, 92, 0.1);
+      box-shadow: 0 4px 16px var(--shadow-soft);
       outline: none;
     }
 
@@ -552,19 +691,56 @@
       border-top: 1px solid var(--border);
     }
 
-    /* ── Responsive ── */
+    @media (prefers-reduced-motion: reduce) {
+      .project-card:hover {
+        transform: none;
+      }
+    }
+
     @media (max-width: 600px) {
       .nav {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+          "logo theme"
+          "links links";
+        align-items: flex-start;
+        row-gap: 8px;
         padding: 12px 16px;
       }
 
+      .nav-logo {
+        grid-area: logo;
+      }
+
+      .nav-actions {
+        display: contents;
+      }
+
+      .theme-button {
+        grid-area: theme;
+        justify-self: end;
+      }
+
       .nav-links {
+        grid-area: links;
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 2px;
       }
 
       .nav-links a {
         font-size: 12px;
         padding: 6px 8px;
+      }
+
+      .now-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .now-card,
+      .experience-card {
+        padding: 24px;
       }
 
       .timeline {
@@ -582,14 +758,6 @@
         padding-left: 32px;
       }
 
-      .now-card {
-        padding: 24px;
-      }
-
-      .experience-card {
-        padding: 20px;
-      }
-
       .contact-links {
         flex-direction: column;
       }
@@ -601,27 +769,42 @@
   </style>
 </head>
 <body>
-
-  <!-- ── Navigation ── -->
   <nav class="nav" id="nav" aria-label="Main navigation">
     <a href="#" class="nav-logo">Lev Gerasimov</a>
-    <ul class="nav-links">
-      <li><a href="#now">Now</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#achievements">Achievements</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+    <div class="nav-actions">
+      <ul class="nav-links">
+        <li><a href="#now">Now</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#additional-education">Additional education</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#achievements">Achievements</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="theme-button" type="button" id="theme-button" aria-label="Switch to light theme" aria-pressed="true" title="Switch to light theme">
+        <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3 6.5 6.5 0 0 0 21 12.8Z"/>
+        </svg>
+        <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+      </button>
+    </div>
   </nav>
 
-  <!-- ── Hero ── -->
   <header class="hero" id="hero">
-    <div class="hero-bg" id="hero-bg" role="img" aria-label="Cambridge background"></div>
+    <div class="hero-bg" id="hero-bg" role="img" aria-label="Photos of Lev Gerasimov">
+      <span class="hero-bg-slide" aria-hidden="true"></span>
+      <span class="hero-bg-slide" aria-hidden="true"></span>
+      <span class="hero-bg-slide" aria-hidden="true"></span>
+      <span class="hero-bg-slide" aria-hidden="true"></span>
+      <span class="hero-bg-slide" aria-hidden="true"></span>
+    </div>
     <div class="hero-overlay" id="hero-overlay"></div>
     <div class="hero-content">
       <h1>Lev Gerasimov</h1>
-      <p class="hero-tagline">Chemical Engineer &amp; Bioengineering · University of Cambridge</p>
+      <p class="hero-tagline">Chemical Engineering &amp; Biotechnology · University of Cambridge</p>
       <a href="#now" class="scroll-cue" aria-label="Scroll to content">
         <span>Scroll</span>
         <span class="scroll-cue-arrow" aria-hidden="true"></span>
@@ -629,34 +812,38 @@
     </div>
   </header>
 
-  <!-- ── Main content ── -->
-  <div class="content">
-
-    <!-- Now / Currently -->
+  <main class="content">
     <section class="section now-section" id="now" aria-labelledby="now-title">
       <div class="section-inner">
         <p class="section-label" id="now-title">Currently</p>
-        <div class="now-card">
-          <p class="now-label">Now</p>
-          <p class="now-status">Reading Chemical Engineering &amp; Biotechnology at the University of Cambridge, graduating 2028</p>
-          <p class="now-detail">An ambitious chemical engineer with a strong interest in bioengineering, drawing on experience across Russia's largest agroholding and a groundbreaking nanomaterial laboratory.</p>
-          <p class="now-detail">Year 2 with a predicted Class 1, focusing on reaction engineering, heat &amp; mass transfer, biotechnology, and process design.</p>
+        <div class="now-grid">
+          <article class="now-card">
+            <p class="now-label">Research</p>
+            <p class="now-status">Molecular Neuroscience Group, FLIMPA modification project</p>
+            <p class="now-detail">Working on modifications to a FLIM phasor-analysis workflow, a fluorescence lifetime imaging method used to read biochemical changes from microscopy data faster and with less model-heavy fitting.</p>
+          </article>
+          <article class="now-card">
+            <p class="now-label">Job</p>
+            <p class="now-status">Teaching Assistant, Downing College International Undergraduate Summer Programme</p>
+            <p class="now-detail">Supporting students during Downing College's summer academic programme in Cambridge.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- Education -->
     <section class="section" id="education" aria-labelledby="education-title">
       <div class="section-inner">
         <p class="section-label">Education</p>
-        <h2 class="section-title" id="education-title">Where I've studied</h2>
+        <h2 class="section-title" id="education-title">Education</h2>
 
         <div class="timeline">
           <article class="timeline-item">
             <p class="timeline-years">2024 – 2028 (expected)</p>
             <h3 class="timeline-school">University of Cambridge</h3>
             <p class="timeline-degree">Chemical Engineering &amp; Biotechnology</p>
-            <p class="timeline-desc">Year 1: Class 2.1, top 30 in cohort, with First Class in Mathematics (80.1%, top 2%). Year 2: predicted Class 1. Coursework spans Process Engineering, Fluid Mechanics, Heat &amp; Mass Transfer, Reaction Engineering, Biotechnology, Process Thermodynamics, and Separators.</p>
+            <p class="timeline-desc">Year 1: Class 2.1, top 30 in cohort, with First Class in Mathematics (80.1%, top 2%).</p>
+            <p class="timeline-desc">Year 2: predicted Class 1.</p>
+            <p class="timeline-desc">Coursework spans Process Engineering, Fluid Mechanics, Heat &amp; Mass Transfer, Reaction Engineering, Biotechnology, Process Thermodynamics, and Separators.</p>
           </article>
 
           <p class="timeline-connector">Transferred to the University of Cambridge</p>
@@ -671,80 +858,147 @@
       </div>
     </section>
 
-    <!-- Experience -->
+    <section class="section" id="additional-education" aria-labelledby="additional-education-title">
+      <div class="section-inner">
+        <p class="section-label">Additional education</p>
+        <h2 class="section-title" id="additional-education-title">Courses and certificates</h2>
+
+        <div class="achievements-grid">
+          <article class="achievement-item">
+            <h3 class="achievement-title">MIT OpenCourseWare</h3>
+            <p class="achievement-detail">"Introduction to Computer Science and Programming in Python".</p>
+          </article>
+
+          <article class="achievement-item">
+            <h3 class="achievement-title">HarvardX</h3>
+            <p class="achievement-detail">"Science &amp; Cooking: From Haute Cuisine to Soft Matter Science".</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="experience" aria-labelledby="experience-title">
       <div class="section-inner">
         <p class="section-label">Experience</p>
-        <h2 class="section-title" id="experience-title">Where I've worked</h2>
+        <h2 class="section-title" id="experience-title">Working experience</h2>
 
         <div class="experience-list">
-          <article class="experience-card">
-            <p class="experience-dates">Oct 2025 – Dec 2025 · Cambridge</p>
-            <h3 class="experience-role">Mixer Design Project</h3>
-            <p class="experience-company">University of Cambridge</p>
-            <p class="experience-desc">Led the selection of anchor-type mixers with cross-functional teams using performance metrics, calculated 1000+ points of power supply to determine optimal dimensions, and formulated theoretical justifications and concentration predictions for an industrial-scale CSTR reactor with an anchor mixer.</p>
-          </article>
-
           <article class="experience-card">
             <p class="experience-dates">Jul 2024 – May 2025 · Moscow</p>
             <h3 class="experience-role">Bioinformatics Analyst</h3>
             <p class="experience-company">RusAgro</p>
-            <p class="experience-desc">Analyzed 10,000+ production data records to build gravity-model analyses supporting nationwide manufacturing network optimization, delivered scientific consulting for an MPTI collaboration on plant mutagenesis vaccines, and prepared concise technical summaries and visuals for R&amp;D and operations stakeholders.</p>
+            <ul class="experience-points">
+              <li>Analyzed 10,000+ production data records for gravity-model analyses.</li>
+              <li>Supported nationwide manufacturing network optimization with data-driven recommendations.</li>
+              <li>Prepared technical summaries and visuals for R&amp;D and operations stakeholders.</li>
+            </ul>
           </article>
 
           <article class="experience-card">
             <p class="experience-dates">Aug 2023 – Sep 2024 · Saint Petersburg</p>
             <h3 class="experience-role">Nanomaterial Laboratory Assistant</h3>
             <p class="experience-company">ITMO Nanomaterial Laboratory</p>
-            <p class="experience-desc">Synthesized 10 types of opto-semiconductor microfilms (arsenic sulfide) with controlled 200–300 μm thickness, optimized crystallization behavior through spectrophotometric analysis, and presented findings on gold-nanoparticle doping effects on Urbach energy and bandgap.</p>
+            <ul class="experience-points">
+              <li>Synthesized 10 types of opto-semiconductor arsenic sulfide microfilms.</li>
+              <li>Controlled film thickness in the 200–300 μm range and optimized crystallization behavior.</li>
+              <li>Presented findings on gold-nanoparticle doping effects on Urbach energy and bandgap.</li>
+            </ul>
           </article>
 
           <article class="experience-card">
             <p class="experience-dates">May 2022 – Jul 2022 · Moscow</p>
             <h3 class="experience-role">Biology Lab Intern</h3>
             <p class="experience-company">Skoltech</p>
-            <p class="experience-desc">Engineered 3 tetracycline-resistant E. coli strains through 10 rigorous passages on selective media, identified resistant breeds via ELISA analysis, and validated resistance profiles using BLAST genome comparison against established antibiotic resistance genes.</p>
+            <ul class="experience-points">
+              <li>Engineered 3 tetracycline-resistant E. coli strains through 10 selective-media passages.</li>
+              <li>Identified resistant strains using ELISA analysis.</li>
+              <li>Validated resistance profiles with BLAST genome comparison against known antibiotic resistance genes.</li>
+            </ul>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- Projects -->
     <section class="section" id="projects" aria-labelledby="projects-title">
       <div class="section-inner">
         <p class="section-label">Projects</p>
-        <h2 class="section-title" id="projects-title">Things I've built</h2>
+        <h2 class="section-title" id="projects-title">Things I've created</h2>
 
         <div class="projects-grid">
-          <!-- EDIT: Replace image, title, and description for each project -->
           <article class="project-card">
-            <img class="project-image" src="images/project-1.jpg" alt="Project 1 preview" loading="lazy">
             <div class="project-body">
-              <h3 class="project-title">Project Name</h3>
-              <p class="project-desc">A short description of what this project does, the technologies used, and what you learned or achieved.</p>
+              <p class="project-meta">Process design · food industry</p>
+              <h3 class="project-title">Shell-and-Tube Heat Exchanger for Juice Pasteurisation</h3>
+              <p class="project-desc">Designed an industrial TEMA BEM exchanger to heat orange juice from 25 C to 98 C with pressurised hot water, while respecting fouling, cleanability and pressure-drop limits.</p>
+              <ul class="project-points">
+                <li>Sized a 1.331 MW duty using Kern-method calculations, then refined shell-side performance with Bell-method corrections.</li>
+                <li>Selected 66 tubes in 6 passes, giving 31.10 m2 available area and a 6.0% design margin.</li>
+                <li>Kept tube-side and shell-side pressure drops at 0.276 bar and 0.197 bar, below the 0.5 bar design limit.</li>
+              </ul>
+              <a class="project-link" href="files/shell-and-tube-heat-exchanger.pdf" target="_blank" rel="noopener noreferrer">View report</a>
             </div>
           </article>
 
           <article class="project-card">
-            <img class="project-image" src="images/project-2.jpg" alt="Project 2 preview" loading="lazy">
             <div class="project-body">
-              <h3 class="project-title">Project Name</h3>
-              <p class="project-desc">A short description of what this project does, the technologies used, and what you learned or achieved.</p>
+              <p class="project-meta">Reaction engineering · scale-up</p>
+              <h3 class="project-title">Maleic Anhydride Reactor Operating Window</h3>
+              <p class="project-desc">Built numerical plug-flow reactor models for selective n-butane oxidation under isothermal, adiabatic and cooled operation.</p>
+              <ul class="project-points">
+                <li>Solved material and energy balances in Python to compare conversion, yield, selectivity and temperature profiles.</li>
+                <li>Identified how coolant temperature, pressure and feed concentration affect productivity and burnout risk.</li>
+                <li>Recommended a controllable operating window around 380 C and about 30 m3 instead of relying on one fragile optimum.</li>
+              </ul>
+              <a class="project-link" href="files/maleic-anhydride-reactor-model.pdf" target="_blank" rel="noopener noreferrer">View report</a>
             </div>
           </article>
 
           <article class="project-card">
-            <img class="project-image" src="images/project-3.jpg" alt="Project 3 preview" loading="lazy">
             <div class="project-body">
-              <h3 class="project-title">Project Name</h3>
-              <p class="project-desc">A short description of what this project does, the technologies used, and what you learned or achieved.</p>
+              <p class="project-meta">Mixing · process scale-up</p>
+              <h3 class="project-title">Industrial CSTR Mixer Design</h3>
+              <p class="project-desc">Developed engineering design logic for anchor-type mixing in a continuous stirred-tank reactor, connecting equipment choices to process performance.</p>
+              <ul class="project-points">
+                <li>Compared mixer geometries against practical process requirements and concentration-control performance.</li>
+                <li>Computed power requirements across 1000+ operating points to understand operating cost and equipment sizing.</li>
+                <li>Linked design decisions to scale-up constraints, mixing quality and predictable reactor operation.</li>
+                <li>Created Autodesk Inventor part files for propeller, anchor and motor-attachment concepts.</li>
+              </ul>
+              <a class="project-link" href="files/cstr-propeller-cad-files.zip" download>Download CAD files</a>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-body">
+              <p class="project-meta">Utilities · sustainability</p>
+              <h3 class="project-title">Paper Mill Steam and Biomass Energy Assessment</h3>
+              <p class="project-desc">Assessed combustion-driven steam generation for a paper mill and the operational case for switching from natural gas to in-house biomass.</p>
+              <ul class="project-points">
+                <li>Calculated 2657.8 kmol/h required air flow and about 1.358 x 10^8 kJ/h available heat release.</li>
+                <li>Connected combustion heat release to superheated-steam utility demand for industrial paper drying.</li>
+                <li>Built a SWOT view of biomass: supply independence and net-zero upside versus capex, flexibility and NOx-control risk.</li>
+              </ul>
+              <a class="project-link" href="files/paper-mill-energy-biomass.pdf" target="_blank" rel="noopener noreferrer">View report</a>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-body">
+              <p class="project-meta">Fluid mechanics · plant systems</p>
+              <h3 class="project-title">Plant Water-Supply Pumping Network</h3>
+              <p class="project-desc">Modelled a chemical-plant water distribution network with reservoirs, pipes, valves and alternative pump configurations.</p>
+              <ul class="project-points">
+                <li>Solved hydraulic operating points with simplified and roughness-aware friction models.</li>
+                <li>Estimated operating flow around 0.039-0.040 m3/s and velocity around 2.2 m/s through pipe A.</li>
+                <li>Compared valve positioning, series and parallel pumps, and increased impeller speed for changing pressure demands.</li>
+              </ul>
+              <a class="project-link" href="files/fluid-mechanics-pumping-network.pdf" target="_blank" rel="noopener noreferrer">View report</a>
             </div>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- Achievements -->
     <section class="section" id="achievements" aria-labelledby="achievements-title">
       <div class="section-inner">
         <p class="section-label">Achievements</p>
@@ -761,25 +1015,10 @@
             <p class="achievement-detail">Awarded at the ITMO University Conference of Young Scientists.</p>
           </article>
 
-          <article class="achievement-item">
-            <h3 class="achievement-title">First Class in Mathematics</h3>
-            <p class="achievement-detail">80.1% at Cambridge — top 2% of the cohort.</p>
-          </article>
-
-          <article class="achievement-item">
-            <h3 class="achievement-title">MIT OpenCourseWare</h3>
-            <p class="achievement-detail">"Introduction to Computer Science and Programming in Python".</p>
-          </article>
-
-          <article class="achievement-item">
-            <h3 class="achievement-title">HarvardX</h3>
-            <p class="achievement-detail">"Science &amp; Cooking: From Haute Cuisine to Soft Matter Science".</p>
-          </article>
         </div>
       </div>
     </section>
 
-    <!-- Contact -->
     <section class="section contact-section" id="contact" aria-labelledby="contact-title">
       <div class="section-inner">
         <p class="section-label">Contact</p>
@@ -794,8 +1033,7 @@
             contact@levgerasimov.com
           </a>
 
-          <!-- EDIT: Replace with your Telegram username -->
-          <a class="contact-btn" href="https://t.me/yourusername" target="_blank" rel="noopener noreferrer">
+          <a class="contact-btn" href="https://t.me/lev_ontiy" target="_blank" rel="noopener noreferrer">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
             </svg>
@@ -804,19 +1042,46 @@
         </div>
       </div>
     </section>
+  </main>
 
-    <footer class="footer">
-      <p>&copy; 2026 Lev Gerasimov</p>
-    </footer>
-  </div>
+  <footer class="footer">
+    <p>&copy; 2026 Lev Gerasimov</p>
+  </footer>
 
   <script>
     (function () {
       var heroBg = document.getElementById("hero-bg");
       var heroOverlay = document.getElementById("hero-overlay");
       var nav = document.getElementById("nav");
+      var themeButton = document.getElementById("theme-button");
       var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       var ticking = false;
+
+      function setTheme(theme) {
+        var nextTheme = theme === "light" ? "light" : "dark";
+        var isDark = nextTheme === "dark";
+
+        document.documentElement.setAttribute("data-theme", nextTheme);
+
+        if (themeButton) {
+          themeButton.setAttribute("aria-pressed", String(isDark));
+          themeButton.setAttribute("aria-label", isDark ? "Switch to light theme" : "Switch to dark theme");
+          themeButton.setAttribute("title", isDark ? "Switch to light theme" : "Switch to dark theme");
+        }
+
+        try {
+          localStorage.setItem("preferred-theme", nextTheme);
+        } catch (error) {
+          // localStorage can be unavailable in restricted browsing contexts.
+        }
+      }
+
+      if (themeButton) {
+        themeButton.addEventListener("click", function () {
+          var currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+          setTheme(currentTheme === "dark" ? "light" : "dark");
+        });
+      }
 
       function onScroll() {
         if (ticking) return;
@@ -845,6 +1110,13 @@
       }
 
       window.addEventListener("scroll", onScroll, { passive: true });
+
+      try {
+        setTheme(localStorage.getItem("preferred-theme") || "dark");
+      } catch (error) {
+        setTheme("dark");
+      }
+
       onScroll();
     })();
   </script>
