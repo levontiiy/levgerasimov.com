@@ -718,6 +718,38 @@ body {
   outline: none;
 }
 
+.form-status {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 14px;
+  border-radius: 8px;
+  line-height: 1.4;
+}
+
+.form-status-success {
+  background: rgba(46, 125, 50, 0.12);
+  color: #2e7d32;
+  border: 1px solid rgba(46, 125, 50, 0.28);
+}
+
+:root[data-theme="dark"] .form-status-success {
+  background: rgba(129, 199, 132, 0.14);
+  color: #81c784;
+  border-color: rgba(129, 199, 132, 0.3);
+}
+
+.form-status-error {
+  background: rgba(198, 40, 40, 0.12);
+  color: #c62828;
+  border: 1px solid rgba(198, 40, 40, 0.28);
+}
+
+:root[data-theme="dark"] .form-status-error {
+  background: rgba(239, 154, 154, 0.14);
+  color: #ef9a9a;
+  border-color: rgba(239, 154, 154, 0.3);
+}
+
 .contact-links {
   display: flex;
   flex-wrap: wrap;

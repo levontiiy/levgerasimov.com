@@ -14,12 +14,12 @@ interface Props {
 const {
   email,
   telegram,
-  accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY || 'YOUR_ACCESS_KEY_HERE',
+  accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY || '78718a22-f15c-4469-9655-b802c1e83b6e',
 } = Astro.props;
 ---
 
 <Section id="contact" class="contact-section" label="Contact" title="Get in touch">
-  <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+  <form class="contact-form" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
     <input type="hidden" name="access_key" value={accessKey} />
     <input type="hidden" name="subject" value="New message from levgerasimov.com portfolio" />
     <input type="hidden" name="from_name" value="Portfolio Contact Form" />
@@ -40,7 +40,9 @@ const {
       <textarea class="form-textarea" id="contact-message" name="message" rows="5" required placeholder="How can I help you?"></textarea>
     </div>
 
-    <button class="form-submit-btn" type="submit">Send Message</button>
+    <div class="form-status" id="form-status" style="display: none;" role="status"></div>
+
+    <button class="form-submit-btn" id="form-submit-btn" type="submit">Send Message</button>
   </form>
 
   <div class="contact-links">
@@ -60,3 +62,46 @@ const {
     </a>
   </div>
 </Section>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('form-status');
+  const btn = document.getElementById('form-submit-btn') as HTMLButtonElement | null;
+
+  if (form && status && btn) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      btn.disabled = true;
+      const originalText = btn.textContent;
+      btn.textContent = 'Sending...';
+      status.style.display = 'none';
+
+      try {
+        const formData = new FormData(form);
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: formData,
+        });
+        const result = await response.json();
+
+        if (result.success) {
+          status.style.display = 'block';
+          status.className = 'form-status form-status-success';
+          status.textContent = '✓ Thank you! Your message has been sent successfully.';
+          form.reset();
+        } else {
+          status.style.display = 'block';
+          status.className = 'form-status form-status-error';
+          status.textContent = result.message || 'Something went wrong. Please try again or email directly.';
+        }
+      } catch (err) {
+        status.style.display = 'block';
+        status.className = 'form-status form-status-error';
+        status.textContent = 'Network error. Please try again or email directly.';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }
+    });
+  }
+</script>
