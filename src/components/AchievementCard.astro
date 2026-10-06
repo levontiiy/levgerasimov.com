@@ -1,0 +1,14 @@
+---
+/** Small titled card used for achievements and courses/certificates. */
+interface Props {
+  title: string;
+  detail: string;
+}
+
+const { title, detail } = Astro.props;
+---
+
+<article class="achievement-item">
+  <h3 class="achievement-title">{title}</h3>
+  <p class="achievement-detail">{detail}</p>
+</article>

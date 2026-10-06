@@ -1,0 +1,28 @@
+---
+/**
+ * Work-experience card. The bullet list is rendered from `points` or passed
+ * through the default slot.
+ */
+interface Props {
+  /** Already-formatted date range, e.g. "Jul 2024 – May 2025". */
+  dates: string;
+  location?: string;
+  role: string;
+  company: string;
+  points?: string[];
+}
+
+const { dates, location, role, company, points } = Astro.props;
+---
+
+<article class="experience-card">
+  <p class="experience-dates">{location ? `${dates} · ${location}` : dates}</p>
+  <h3 class="experience-role">{role}</h3>
+  <p class="experience-company">{company}</p>
+  {points && points.length > 0 && (
+    <ul class="experience-points">
+      {points.map((point) => <li>{point}</li>)}
+    </ul>
+  )}
+  <slot />
+</article>

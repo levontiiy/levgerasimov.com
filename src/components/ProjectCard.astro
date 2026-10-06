@@ -1,0 +1,50 @@
+---
+/**
+ * Project card: category tags, title, rich description (via props or slot)
+ * and an optional call-to-action link.
+ *
+ * Link kinds:
+ *  - "report"   → opens in a new tab (PDF reports)
+ *  - "download" → forces a download (e.g. CAD archives)
+ *  - "external" → opens in a new tab (GitHub, papers, …)
+ */
+export interface ProjectLink {
+  href: string;
+  label: string;
+  kind: 'report' | 'download' | 'external';
+}
+
+interface Props {
+  title: string;
+  tags: string[];
+  description?: string;
+  points?: string[];
+  link?: ProjectLink;
+}
+
+const { title, tags, description, points, link } = Astro.props;
+const opensInNewTab = link && link.kind !== 'download';
+---
+
+<article class="project-card">
+  <div class="project-body">
+    {tags.length > 0 && <p class="project-meta">{tags.join(' · ')}</p>}
+    <h3 class="project-title">{title}</h3>
+    {description && <p class="project-desc">{description}</p>}
+    {points && points.length > 0 && (
+      <ul class="project-points">
+        {points.map((point) => <li>{point}</li>)}
+      </ul>
+    )}
+    <slot />
+    {link && (
+      <a
+        class="project-link"
+        href={link.href}
+        target={opensInNewTab ? '_blank' : undefined}
+        rel={opensInNewTab ? 'noopener noreferrer' : undefined}
+        download={link.kind === 'download' ? true : undefined}
+      >{link.label}</a>
+    )}
+  </div>
+</article>

@@ -1,1 +1,14 @@
 .DS_Store
+
+# Astro / Node
+node_modules/
+dist/
+.astro/
+
+# Environment variables (keep the example file tracked)
+.env
+.env.*
+!.env.example
+
+# Logs
+npm-debug.log*

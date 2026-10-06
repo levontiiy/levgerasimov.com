@@ -1,0 +1,29 @@
+---
+/**
+ * Shared section wrapper: <section class="section"> + .section-inner + the
+ * small uppercase label and (optional) large title used by every content block.
+ */
+interface Props {
+  id: string;
+  label: string;
+  title?: string;
+  /** Extra classes appended after "section" (e.g. "now-section"). */
+  class?: string;
+  /**
+   * Where the aria-labelledby id goes. Normally the <h2> title; sections without
+   * a title (e.g. "Currently") put it on the label instead.
+   */
+  labelledBy?: 'title' | 'label';
+}
+
+const { id, label, title, class: extraClass, labelledBy = title ? 'title' : 'label' } = Astro.props;
+const headingId = `${id}-title`;
+---
+
+<section class:list={['section', extraClass]} id={id} aria-labelledby={headingId}>
+  <div class="section-inner">
+    <p class="section-label" id={labelledBy === 'label' ? headingId : undefined}>{label}</p>
+    {title && <h2 class="section-title" id={labelledBy === 'title' ? headingId : undefined}>{title}</h2>}
+    <slot />
+  </div>
+</section>

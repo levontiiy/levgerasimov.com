@@ -1,0 +1,14 @@
+---
+/** Page footer with copyright line. */
+interface Props {
+  name: string;
+  /** Defaults to the build year. */
+  year?: number;
+}
+
+const { name, year = new Date().getFullYear() } = Astro.props;
+---
+
+<footer class="footer">
+  <p>&copy; {year} {name}</p>
+</footer>

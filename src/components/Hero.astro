@@ -1,0 +1,29 @@
+---
+/**
+ * Full-viewport hero: cross-fading photo slideshow (photos are set via
+ * --hero-photo-N custom properties in global.css), name, tagline and scroll cue.
+ */
+interface Props {
+  name: string;
+  tagline: string;
+  /** Number of slideshow slides; must match the .hero-bg-slide:nth-child rules in global.css. */
+  slides?: number;
+}
+
+const { name, tagline, slides = 5 } = Astro.props;
+---
+
+<header class="hero" id="hero">
+  <div class="hero-bg" id="hero-bg" role="img" aria-label={`Photos of ${name}`}>
+    {Array.from({ length: slides }, () => <span class="hero-bg-slide" aria-hidden="true"></span>)}
+  </div>
+  <div class="hero-overlay" id="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>{name}</h1>
+    <p class="hero-tagline">{tagline}</p>
+    <a href="#now" class="scroll-cue" aria-label="Scroll to content">
+      <span>Scroll</span>
+      <span class="scroll-cue-arrow" aria-hidden="true"></span>
+    </a>
+  </div>
+</header>

@@ -1,0 +1,16 @@
+---
+/** A "Currently" card (research, job, …). */
+interface Props {
+  label: string;
+  status: string;
+  detail: string;
+}
+
+const { label, status, detail } = Astro.props;
+---
+
+<article class="now-card">
+  <p class="now-label">{label}</p>
+  <p class="now-status">{status}</p>
+  <p class="now-detail">{detail}</p>
+</article>

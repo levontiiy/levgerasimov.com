@@ -1,0 +1,98 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import NowCard from '../components/NowCard.astro';
+import EducationCard from '../components/EducationCard.astro';
+import AchievementCard from '../components/AchievementCard.astro';
+import ExperienceCard from '../components/ExperienceCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import {
+  profile,
+  navLinks,
+  now,
+  education,
+  additionalEducation,
+  achievements,
+  contact,
+} from '../data/profile';
+
+// Fetch and sort content collections
+const rawExperience = await getCollection('experience');
+const experience = rawExperience.sort((a, b) => a.data.order - b.data.order);
+
+const rawProjects = await getCollection('projects');
+const projects = rawProjects.sort((a, b) => a.data.order - b.data.order);
+---
+
+<Layout>
+  <Navigation brand={profile.name} links={navLinks} />
+  <Hero name={profile.name} tagline={profile.tagline} />
+
+  <main class="content">
+    <Section id="now" class="now-section" label="Currently">
+      <div class="now-grid">
+        {now.map((item) => <NowCard {...item} />)}
+      </div>
+    </Section>
+
+    <Section id="education" label="Education" title="Education">
+      <div class="timeline">
+        {education.map(({ connectorBefore, ...item }) => (
+          <>
+            {connectorBefore && <p class="timeline-connector">{connectorBefore}</p>}
+            <EducationCard {...item} />
+          </>
+        ))}
+      </div>
+    </Section>
+
+    <Section id="additional-education" label="Additional education" title="Courses and certificates">
+      <div class="achievements-grid">
+        {additionalEducation.map((item) => <AchievementCard {...item} />)}
+      </div>
+    </Section>
+
+    <Section id="experience" label="Experience" title="Working experience">
+      <div class="experience-list">
+        {experience.map((entry) => (
+          <ExperienceCard
+            dates={entry.data.dates}
+            location={entry.data.location}
+            role={entry.data.role}
+            company={entry.data.company}
+            points={entry.data.points}
+          />
+        ))}
+      </div>
+    </Section>
+
+    <Section id="projects" label="Projects" title="Things I've created">
+      <div class="projects-grid">
+        {projects.map((entry) => (
+          <ProjectCard
+            title={entry.data.title}
+            tags={entry.data.tags}
+            description={entry.data.description}
+            points={entry.data.points}
+            link={entry.data.link}
+          />
+        ))}
+      </div>
+    </Section>
+
+    <Section id="achievements" label="Achievements" title="Highlights">
+      <div class="achievements-grid">
+        {achievements.map((item) => <AchievementCard {...item} />)}
+      </div>
+    </Section>
+
+    <Contact {...contact} />
+  </main>
+
+  <Footer name={profile.name} />
+</Layout>

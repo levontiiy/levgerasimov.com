@@ -1,0 +1,21 @@
+---
+/** One entry on the education timeline. */
+export interface Education {
+  years: string;
+  school: string;
+  degree: string;
+  /** Each string renders as its own paragraph. */
+  details: string[];
+}
+
+type Props = Education;
+
+const { years, school, degree, details } = Astro.props;
+---
+
+<article class="timeline-item">
+  <p class="timeline-years">{years}</p>
+  <h3 class="timeline-school">{school}</h3>
+  <p class="timeline-degree">{degree}</p>
+  {details.map((detail) => <p class="timeline-desc">{detail}</p>)}
+</article>

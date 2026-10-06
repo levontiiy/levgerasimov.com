@@ -1,0 +1,34 @@
+---
+/**
+ * Base page shell. Global styles are the original <style> block from the
+ * legacy single-file site, extracted verbatim into src/styles/global.css.
+ */
+import '../styles/global.css';
+import SEO from '../components/SEO.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogDescription?: string;
+  image?: string;
+}
+
+const { title, description, ogDescription, image } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <SEO title={title} description={description} ogDescription={ogDescription} image={image} />
+</head>
+<body>
+  <slot />
+
+  <script>
+    // Theme toggle, nav "scrolled" state and hero parallax (unchanged from the original site).
+    import '../scripts/site.js';
+  </script>
+</body>
+</html>
