@@ -1,9 +1,6 @@
 /**
  * Site-wide profile data that is not a content collection.
  * Projects and work experience live in src/content/ as Markdown.
- *
- * Text here is copied verbatim from the original index.html — edit freely,
- * the components render whatever is in these objects.
  */
 
 export const profile = {
@@ -23,15 +20,16 @@ export const navLinks = [
 
 export const now = [
   {
-    label: 'Research',
-    status: 'Molecular Neuroscience Group, FLIMPA modification project',
+    label: 'Currently',
+    status: 'Third-year Chemical Engineering & Biotechnology student',
     detail:
-      'Working on modifications to a FLIM phasor-analysis workflow, a fluorescence lifetime imaging method used to read biochemical changes from microscopy data faster and with less model-heavy fitting.',
+      'Enrolled in a four-year programme at the University of Cambridge.',
   },
   {
-    label: 'Job',
-    status: 'Teaching Assistant, Downing College International Undergraduate Summer Programme',
-    detail: "Supporting students during Downing College's summer academic programme in Cambridge.",
+    label: 'Research',
+    status: 'Molecular Neuroscience Group — FLIMPA Post-Release Modifications',
+    detail:
+      'Integrating a wavelet filter into FLIMPA’s fluorescence lifetime imaging (FLIM) phasor-analysis workflow.',
   },
 ];
 
@@ -51,18 +49,18 @@ export const education: Array<{
     school: 'University of Cambridge',
     degree: 'Chemical Engineering & Biotechnology',
     details: [
-      'Year 1: Class 2.1, top 30 in cohort, with First Class in Mathematics (80.1%, top 2%).',
-      'Year 2: predicted Class 1.',
-      'Coursework spans Process Engineering, Fluid Mechanics, Heat & Mass Transfer, Reaction Engineering, Biotechnology, Process Thermodynamics, and Separators.',
+      'Year 1: Class 2.1; First Class in Mathematics (80.1%; top 2%).',
+      'Year 2: Class 2.1; First Class Paper 3 (Solids, Engineering Mathematics, Separations).',
+      'Coursework: Process Engineering, Fluid Mechanics, Heat & Mass Transfer, Reaction Engineering, Biotechnology, Process Thermodynamics, and Separators.',
     ],
   },
   {
-    connectorBefore: 'Transferred to the University of Cambridge',
+    connectorBefore: 'Subsequently entered the University of Cambridge as a first-year student',
     years: '2023 – 2024',
     school: 'ITMO University',
     degree: 'Bioengineering',
     details: [
-      'GPA 5.0/5.0. Coursework in Linear Algebra, Analysis, Cell Biology, Process Simulation, and Environmental Research.',
+      'GPA: 5.0/5.0. Coursework: Linear Algebra, Analysis, Cell Biology, Process Simulation, and Environmental Research.',
     ],
   },
 ];
@@ -80,4 +78,5 @@ export const achievements = [
 export const contact = {
   email: 'contact@levgerasimov.com',
   telegram: { url: 'https://t.me/lev_ontiy', label: 'Telegram' },
+  linkedin: { url: 'https://www.linkedin.com/in/levikgerasimov', label: 'LinkedIn' },
 };

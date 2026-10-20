@@ -3,20 +3,19 @@ order: 5
 title: "Plant Water-Supply Pumping Network"
 tags:
   - "Fluid mechanics"
-  - "plant systems"
-description: "Modelled a chemical-plant water distribution network with reservoirs, pipes, valves and alternative pump configurations."
+description: "Modelled a chemical-plant water distribution network with reservoirs, pipes, valves and alternative pumps."
 points:
-  - "Solved hydraulic operating points with simplified and roughness-aware friction models."
-  - "Estimated operating flow around 0.039-0.040 m3/s and velocity around 2.2 m/s through pipe A."
-  - "Compared valve positioning, series and parallel pumps, and increased impeller speed for changing pressure demands."
+  - "Solved hydraulic operating points using simplified and roughness-aware friction models."
+  - "Estimated operating flow rates and pipe velocities to characterise network performance."
+  - "Compared valve positioning, series/parallel pumps and increased impeller speed for changing pressure demands."
 link:
   href: "files/fluid-mechanics-pumping-network.pdf"
   label: "View report"
   kind: "report"
 ---
 
-Modelled a chemical-plant water distribution network with reservoirs, pipes, valves and alternative pump configurations.
+Modelled a chemical-plant water distribution network with reservoirs, pipes, valves and alternative pumps.
 
-- Solved hydraulic operating points with simplified and roughness-aware friction models.
-- Estimated operating flow around 0.039-0.040 m3/s and velocity around 2.2 m/s through pipe A.
-- Compared valve positioning, series and parallel pumps, and increased impeller speed for changing pressure demands.
+- Solved hydraulic operating points using simplified and roughness-aware friction models.
+- Estimated operating flow rates and pipe velocities to characterise network performance.
+- Compared valve positioning, series/parallel pumps and increased impeller speed for changing pressure demands.
